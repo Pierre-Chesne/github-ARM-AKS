@@ -45,4 +45,4 @@ jobs:
         with:
           azcliversion: 2.17.1
           inlineScript: |
-            az deployment group validate --resource-group ${{ env.AZURE_RG }} --template-file ./ARM/Basic/azuredeploy.json --parameters 'clusterName=${{ env.CLUSTER_NAME }}' 'dnsPrefix=${{ env.DNS_PREFIX }}' 'linuxAdminUsername={{ env.LINUX_ADMIN_USER_NAME }}' 'sshRSAPublicKey={{ secrets.KEY_PUB }}' 'servicePrincipalClientId=${{ env.APPLICATION_ID }}' 'servicePrincipalClientSecret=${{ secrets.SECRET_SPN }}' 'osDiskSizeGB=${{ env.OS_DISK_SIZE_GB }}' 'agentCount=${{ env.AGENT_COUNT }}' 'agentVMSize=${{ AGENT_VM_SIZE }}'
+            az deployment group validate --resource-group ${{ env.AZURE_RG }} --template-file ./ARM/Basic/azuredeploy.json --parameters 'clusterName=${{ env.CLUSTER_NAME }}' 'dnsPrefix=${{ env.DNS_PREFIX }}' 'linuxAdminUsername={{ env.LINUX_ADMIN_USER_NAME }}' 'sshRSAPublicKey={{ secrets.KEY_PUB }}' 'servicePrincipalClientId=${{ env.APPLICATION_ID }}' 'servicePrincipalClientSecret=${{ secrets.SECRET_SPN }}' 'osDiskSizeGB=${{ env.OS_DISK_SIZE_GB }}' 'agentCount=${{ env.AGENT_COUNT }}' 'agentVMSize=${{ env.AGENT_VM_SIZE }}'
