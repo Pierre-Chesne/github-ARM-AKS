@@ -7,6 +7,17 @@ on:
 env:
   AZURE_RG: RG-AKS-000-Basic
   AZURE_LOCATION: eastus2
+  CLUSTER_NAME: Clust-AKS-000
+  DNS_PREFIX: Clust-AKS-000-dns
+  LINUX_ADMIN_USER_NAME: pierrc
+  APPLICATION_ID: 29c9a556-1fc8-4df4-9610-82fae1e4f8e5
+  OS_DISK_SIZE_GB: 30
+  AGENT_COUNT: 3
+  AGENT_VM_SIZE: Standard_DS2_v2
+
+
+
+
 
 
 jobs:
@@ -28,3 +39,10 @@ jobs:
           azcliversion: 2.17.1
           inlineScript: |
             az group create --name ${{ env.AZURE_RG }} --location ${{ env.AZURE_LOCATION }}
+
+      - name: Test du Template ARM
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.17.1
+          inlineScript: |
+            az deployment group validate --resource-group ${{ env.AZURE_RG }} --template-file ./ARM/Basic/azuredeploy.json --parameters 'clusterName=${{ env.CLUSTER_NAME }}' 'dnsPrefix=${{ env.DNS_PREFIX }}' 'linuxAdminUsername={{ env.LINUX_ADMIN_USER_NAME }}' 'sshRSAPublicKey={{ secrets.KEY_PUB }}' 'servicePrincipalClientId=${{ env.APPLICATION_ID }}' 'servicePrincipalClientSecret=${{ secrets.SECRET_SPN }}' 'osDiskSizeGB=${{ env.OS_DISK_SIZE_GB }}' 'agentCount=${{ env.AGENT_COUNT }}' 'agentVMSize=${{ AGENT_VM_SIZE }}'
