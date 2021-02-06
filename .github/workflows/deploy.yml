@@ -1,0 +1,30 @@
+name: Workflow deploiement basic d'un cluster AKS
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  AZURE_RG: RG-AKS-000-Basic
+  AZURE_LOCATION: eastus2
+
+
+jobs:
+  Build:    
+    runs-on: ubuntu-20.04
+    steps:
+
+      - name: Recuperation du repo
+        uses: actions/checkout@v2
+
+      - name: Login Azure
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Creation du RG
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.17.1
+          inlineScript: |
+            az group create --name ${{ env.AZURE_RG }} --location ${{ env.AZURE_LOCATION }}
