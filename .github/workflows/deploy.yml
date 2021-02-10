@@ -6,7 +6,7 @@ on:
 
 env:
   RG_NAME: demoaspnet5aks-rg
-  LOCATION: westeurope
+  AZURE_LOCATION: westeurope
   RG_NAME_TEST: Test-Template-rg
 
 jobs:
