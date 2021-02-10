@@ -4,6 +4,10 @@ on:
     branches:
       - dev
 
+env:
+  RG_NAME: demoaspnet5aks-rg
+
+
 jobs:
   Build:    
     runs-on: ubuntu-20.04
@@ -21,3 +25,13 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Azure Resource Manager (ARM) Template
+        uses: azure/arm-deploy@v1
+        id: deploy
+        with:
+          scope: resourcegroup
+          subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
+          resourceGroupName: demoaspnet5aks-rg
+          template: ./Infrastructure/main.json
+          deploymentMode: Incremental
