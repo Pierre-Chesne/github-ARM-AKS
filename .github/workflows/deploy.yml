@@ -8,7 +8,6 @@ env:
   RG_NAME: demoaspnet5aks-rg
   LOCATION: westeurope
 
-
 jobs:
   Build:    
     runs-on: ubuntu-20.04
@@ -32,14 +31,4 @@ jobs:
         with:
           azcliversion: 2.17.1
           inlineScript: |
-            az group create --name ${{ env.RG_NAME }} --location ${{ env.LOCATION }}        
-
-      - name: Deploy Azure Resource Manager (ARM) Template
-        uses: azure/arm-deploy@v1
-        id: deploy
-        with:
-          scope: resourcegroup
-          subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
-          resourceGroupName: ${{ env.RG_NAME }}
-          template: ./Infrastructure/main.json
-          deploymentMode: Incremental
+            az group create --name ${{ env.RG_NAME }} --location ${{ env.LOCATION }}
