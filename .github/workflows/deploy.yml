@@ -7,6 +7,7 @@ on:
 env:
   RG_NAME: demoaspnet5aks-rg
   LOCATION: westeurope
+  RG_NAME_TEST: Test-Template-rg
 
 jobs:
   Build-Infra:    
@@ -26,3 +27,14 @@ jobs:
         with:
           name: arm_template
           path: ./Bicep/main.json
+
+    Test-Template-ARM:
+      runs-on: ubuntu-20.04
+      needs: Build-Infra
+      steps:
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:    
+          creds: ${{ secrets.AZURE_CREDENTIALS }}         
+
