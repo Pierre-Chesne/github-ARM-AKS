@@ -74,6 +74,9 @@ jobs:
       name: dev
     steps:
 
+      - name: Recuperation du repo
+        uses: actions/checkout@v2
+
       - name: Creation dossier Artifact
         run: |
           mkdir Template_Artifacts
@@ -113,3 +116,4 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az acr build --registry ${{ steps.deploy.outputs.registryNameOutput }} --image aspnet5webapp:${GITHUB_SHA::8} ./WebApp/
+            
