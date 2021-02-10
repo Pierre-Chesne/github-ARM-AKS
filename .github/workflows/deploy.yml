@@ -98,6 +98,7 @@ jobs:
 
       - name: Deploiement du template ARM
         uses: azure/arm-deploy@v1
+        id: deploy
         with:
           scope: resourcegroup
           subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
@@ -105,3 +106,10 @@ jobs:
           template: ./Template_Artifacts/main.json          
           deploymentName: Deployment-001
           deploymentMode: Incremental
+
+      - name: Build image with Azure Container Registry
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az acr build --registry ${{ steps.deploy.outputs.registryNameOutput }} --image aspnet5webapp:${GITHUB_SHA::8} ./WebApp/
