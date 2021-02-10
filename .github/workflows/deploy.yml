@@ -115,5 +115,4 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
-            az acr build --registry ${{ steps.deploy.outputs.registryNameOutput }} --image aspnet5webapp:${GITHUB_SHA::8} ./WebApp/
-            
+            az acr build --registry ${{ steps.deploy.outputs.registryNameOutput }} --image aspnet5webapp:${GITHUB_SHA::8} ./WebApp/   
