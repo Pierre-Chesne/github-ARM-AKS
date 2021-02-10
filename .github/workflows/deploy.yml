@@ -35,3 +35,4 @@ jobs:
           resourceGroupName: demoaspnet5aks-rg
           template: ./Infrastructure/main.json
           deploymentMode: Incremental
+          
