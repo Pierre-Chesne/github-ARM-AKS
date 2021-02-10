@@ -5,12 +5,12 @@ on:
       - dev
 
 env:
-  RG_NAME: demoaspnet5aks-rg
+  RG_NAME: RG-Demoaspnet5aks
   AZURE_LOCATION: westeurope
   RG_NAME_TEST: RG-Test-Template
 
 jobs:
-  Build-Infra:    
+  Build-Infra:
     runs-on: ubuntu-20.04
     steps:
 
@@ -67,3 +67,41 @@ jobs:
           inlineScript: |
             az deployment group what-if --resource-group ${{ env.RG_NAME_TEST }} --name rollout01 --template-file ./Template_Artifacts/main.json
 
+  Deploy-To-Dave:
+    runs-on: ubuntu-20.04
+    needs: Build-Infra
+    environment:
+      name: dev
+    steps:
+
+      - name: Creation dossier Artifact
+        run: |
+          mkdir Template_Artifacts
+
+      - name: Recuperation de artefact
+        uses: actions/download-artifact@v2
+        with:
+          name: arm_template
+          path: Template_Artifacts/
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:    
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Creation du RG & Deploiement du Template ARM
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.17.1
+          inlineScript: |
+            az group create --name ${{ env.RG_NAME }} --location ${{ env.AZURE_LOCATION }}
+
+      - name: Deploiement du template ARM
+        uses: azure/arm-deploy@v1
+        with:
+          scope: resourcegroup
+          subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ env.RG_NAME }}
+          template: ./Template_Artifacts/main.json          
+          deploymentName: Deployment-001
+          deploymentMode: Incremental
