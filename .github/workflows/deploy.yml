@@ -65,5 +65,5 @@ jobs:
         with:
           azcliversion: 2.17.1
           inlineScript: |
-            az deployment group what-if --resource-group ${{ env.RG_NAME }} --name rollout01 --template-file ./Template_Artifacts/main.json
+            az deployment group what-if --resource-group ${{ env.RG_NAME_TEST }} --name rollout01 --template-file ./Template_Artifacts/main.json
 
