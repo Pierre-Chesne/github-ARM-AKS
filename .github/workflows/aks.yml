@@ -10,7 +10,9 @@ jobs:
   deploy-aks:
     runs-on: ubuntu-20.04
     steps:
-    
+
+      - name: Recuperation du repo
+        uses: actions/checkout@v2 
 
       - name: Login to Azure
         uses: azure/login@v1
