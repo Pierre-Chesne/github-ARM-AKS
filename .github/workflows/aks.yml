@@ -30,3 +30,6 @@ jobs:
           kustomize edit set image aspnet5webapp:latest=$IMAGE/aspnet5webapp:${GITHUB_SHA::8}
         env:
           IMAGE: ub5xcwoyadb26acr.azurecr.io
+
+      - name: check
+        run: ls -R ./Kubernetes/
