@@ -31,5 +31,7 @@ jobs:
         env:
           IMAGE: ub5xcwoyadb26acr.azurecr.io
 
-      - name: check
-        run: ls -R ./Kubernetes/
+      - name: Kustomize build
+        run: |
+          kustomize build ./Kubernetes >> ./Kubernetes/output.yaml
+          cat ./Kubernetes/output.yaml
