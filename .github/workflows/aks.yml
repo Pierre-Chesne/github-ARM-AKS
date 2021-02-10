@@ -19,3 +19,12 @@ jobs:
 
       - name: Setup Kustomize
         uses: imranismail/setup-kustomize@v1
+
+      - name: Kustomize edit
+        run: |
+          cd ./Kubernetes/
+          echo $IMAGE
+          echo ${GITHUB_SHA::8}
+          kustomize edit set image aspnet5webapp:latest=$IMAGE/aspnet5webapp:${GITHUB_SHA::8}
+        env:
+          IMAGE: ub5xcwoyadb26acr.azurecr.io
