@@ -16,3 +16,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v1
