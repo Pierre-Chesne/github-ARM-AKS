@@ -8,8 +8,8 @@ on:
 
 jobs:
   deploy-aks:
-  runs-on: ubuntu-20.04
-  steps:
+    runs-on: ubuntu-20.04
+    steps:
     
 
       - name: Login to Azure
