@@ -115,4 +115,30 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
-            az acr build --registry ${{ steps.deploy.outputs.registryNameOutput }} --image aspnet5webapp:${GITHUB_SHA::8} ./WebApp/   
+            az acr build --registry ${{ steps.deploy.outputs.registryNameOutput }} --image aspnet5webapp:${GITHUB_SHA::8} ./WebApp/
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v1
+
+      - name: Kustomize edit
+        run: |
+          cd ./Kubernetes/
+          echo $IMAGE
+          echo ${GITHUB_SHA::8}
+          kustomize edit set image aspnet5webapp:latest=$IMAGE/aspnet5webapp:${GITHUB_SHA::8}
+        env:
+          IMAGE: ${{ steps.deploy.outputs.registryNameOutput }}.azurecr.io
+
+      - name: Kustomize build
+        run: |
+          kustomize build ./Kubernetes >> ./Kubernetes/output.yaml
+          cat ./Kubernetes/output.yaml
+
+      - name: Install Kubectl and deploy
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az aks install-cli
+            az aks get-credentials -g ${{ steps.deploy.outputs.resourceGroupOutput }} -n ${{ steps.deploy.outputs.aksName }}
+            kubectl apply -f ./Kubernetes/output.yaml -n aspnet5webapp
