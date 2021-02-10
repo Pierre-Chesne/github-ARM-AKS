@@ -28,10 +28,10 @@ jobs:
           name: arm_template
           path: ./Bicep/main.json
 
-    Test-Template-ARM:
-      runs-on: ubuntu-20.04
-      needs: Build-Infra
-      steps:
+  Test-Template-ARM:
+    runs-on: ubuntu-20.04
+    needs: Build-Infra
+    steps:
 
       - name: Azure Login
         uses: Azure/login@v1
