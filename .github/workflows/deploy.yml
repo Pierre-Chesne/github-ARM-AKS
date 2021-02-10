@@ -7,7 +7,7 @@ on:
 env:
   RG_NAME: demoaspnet5aks-rg
   AZURE_LOCATION: westeurope
-  RG_NAME_TEST: Test-Template-rg
+  RG_NAME_TEST: RG-Test-Template
 
 jobs:
   Build-Infra:    
@@ -43,7 +43,7 @@ jobs:
           name: arm_template
           path: Template_Artifacts/
 
-      - name: list artefact
+      - name: List artefact
         run: |
           ls -R
 
@@ -58,3 +58,5 @@ jobs:
           azcliversion: 2.17.1
           inlineScript: |
             az group create --name ${{ env.RG_NAME_TEST }} --location ${{ env.AZURE_LOCATION }}
+            az deployment group validate --resource-group ${{ env.RG_NAME_TEST }} --template-file ./Template_Artifacts/main.json
+
