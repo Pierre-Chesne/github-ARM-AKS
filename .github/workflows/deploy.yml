@@ -19,7 +19,7 @@ jobs:
       - name: Run de Becep
         uses: aliencube/bicep-build-actions@v0.1
         with:
-          files: Becep/main.bicep
+          files: Bicep/main.bicep
 
       - name: Publish ARM template artifact
         uses: actions/upload-artifact@v1
