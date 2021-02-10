@@ -60,3 +60,10 @@ jobs:
             az group create --name ${{ env.RG_NAME_TEST }} --location ${{ env.AZURE_LOCATION }}
             az deployment group validate --resource-group ${{ env.RG_NAME_TEST }} --template-file ./Template_Artifacts/main.json
 
+      - name: What-if Template ARM
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.17.1
+          inlineScript: |
+            az deployment group what-if --resource-group ${{ env.RG_NAME }} --name rollout01 --template-file ./Template_Artifacts/main.json
+
