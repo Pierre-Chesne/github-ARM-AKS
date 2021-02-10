@@ -69,7 +69,7 @@ jobs:
 
   Deploy-To-Dave:
     runs-on: ubuntu-20.04
-    needs: Build-Infra
+    needs: Test-Template-ARM
     environment:
       name: dev
     steps:
